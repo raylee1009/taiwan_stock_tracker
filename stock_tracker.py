@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 # 使用 Fugle API 範例取得台灣股市即時資料
-API_KEY = "YOUR_FUGLE_API_KEY"  # 替換為你的 Fugle API Key
+API_KEY = "NTU4ODI2MzgtMDk4Ni00MzY0LWE0MjAtMjcxMWFhYTU3NjZhIDQ4NjFiZTRiLTNkODktNDI1My1hNzc2LTY1NDg4ZDFlZDRlMQ=="  # 替換為你的 Fugle API Key
 BASE_URL = "https://api.fugle.tw/realtime/v0.3/intraday/quote"
 
 # 要觀察的股票清單（股票代碼）
