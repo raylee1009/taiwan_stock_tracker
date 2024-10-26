@@ -1,36 +1,30 @@
-import requests
+import yfinance as yf
 import pandas as pd
 import time
 from datetime import datetime
 
-# 使用 Fugle API 範例取得台灣股市即時資料
-API_KEY = "NTU4ODI2MzgtMDk4Ni00MzY0LWE0MjAtMjcxMWFhYTU3NjZhIDQ4NjFiZTRiLTNkODktNDI1My1hNzc2LTY1NDg4ZDFlZDRlMQ=="  # 替換為你的 Fugle API Key
-BASE_URL = "https://api.fugle.tw/realtime/v0.3/intraday/quote"
-
 # 要觀察的股票清單（股票代碼）
-stock_symbols = ["2330", "0050", "2610"]  # 台積電、元大台灣50、華航
+stock_symbols = ["2330.TW", "0050.TW", "2610.TW"]  # 台積電、元大台灣50、華航
 
 # 設定你的購買成本價格
 cost_price = {
-    "2330": 600.0,
-    "0050": 120.0,
-    "2610": 20.0
+    "2330.TW": 600.0,
+    "0050.TW": 120.0,
+    "2610.TW": 20.0
 }
 
 # Function: 取得即時股價資料
 def get_stock_data(stock_id):
-    response = requests.get(
-        f"{BASE_URL}?symbolId={stock_id}",
-        headers={"Authorization": f"Bearer {API_KEY}"}
-    )
-    if response.status_code == 200:
-        data = response.json()
+    stock = yf.Ticker(stock_id)
+    data = stock.history(period="1d")
+    if not data.empty:
+        current_price = data["Close"].iloc[-1]
         return {
-            "name": data["data"]["info"]["name"],
-            "current_price": data["data"]["quote"]["trade"]["price"]
+            "name": stock.info["shortName"],
+            "current_price": current_price
         }
     else:
-        print(f"Failed to get data for {stock_id}, status code: {response.status_code}")
+        print(f"Failed to get data for {stock_id}")
         return None
 
 # Function: 計算損益百分比
